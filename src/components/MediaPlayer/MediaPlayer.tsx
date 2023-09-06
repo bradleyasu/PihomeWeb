@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { useMediaPlayer } from "../../hooks/useMediaPlayer";
 import { BsFillVolumeDownFill, BsFillVolumeUpFill } from "react-icons/bs";
 import "./MediaPlayer.css"
+import { VERSION } from "../../Version";
+import useRecentMedia from "../../hooks/useRecentMedia";
 
 const MediaPlayer = () => {
     const [url, setUrl] = useState<string>("");
     const [volume, setVolume] = useState<number>(100);
+    const [ recents ] = useRecentMedia();
     const mediaPlayer = useMediaPlayer();
 
     useEffect(() => {
@@ -14,6 +17,7 @@ const MediaPlayer = () => {
             "volume": volume
         });
     }, [volume]);
+
 
     return (
         <div className={"media-player-container"}>
@@ -55,6 +59,27 @@ const MediaPlayer = () => {
                     />
                     <BsFillVolumeUpFill />
                 </Stack>
+            </div>
+            <div>
+                {
+                    recents.map((recent: string) => {
+                        return (
+                            <div key={recent}>
+                                <Button onClick={() => {
+                                    mediaPlayer.mutate({
+                                        "play": recent
+                                    });
+                                }}>{recent}</Button>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            <div>
+                {
+                    /// this will need to be moved
+                }
+                Version: {VERSION}
             </div>
         </div>
     )

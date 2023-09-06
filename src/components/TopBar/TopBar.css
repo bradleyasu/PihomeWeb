@@ -2,8 +2,9 @@
 .top-bar {
     display: flex;
     justify-content: space-between;
-    height: 50px;
+    height: 60px;
     flex-direction: row;
     justify-content: center;
     padding: 2px;
+    padding-top: 12px;
 }
