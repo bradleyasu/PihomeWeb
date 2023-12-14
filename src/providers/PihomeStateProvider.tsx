@@ -8,6 +8,7 @@ interface Props {
 type PiHomeContextType = {
     phstate: any;
     online: boolean;
+    send_payload: (payload: any) => void;
 }
 
 const PiHomeContext = createContext<PiHomeContextType>({} as PiHomeContextType);
@@ -42,8 +43,13 @@ const PihomeStateProvider = ({children}: Props) => {
         }
     }
 
+    const send_payload = (payload: any) => {
+        if (!socket || !online) return;
+        socket.send(JSON.stringify(payload));
+    }
+
     return (
-        <PiHomeContext.Provider value={{phstate, online: online}}>
+        <PiHomeContext.Provider value={{phstate, online: online, send_payload}}>
             {children}
         </PiHomeContext.Provider>
     )

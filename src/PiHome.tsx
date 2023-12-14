@@ -34,6 +34,7 @@ const PiHome = () => {
                 backgroundColor: "#ffffff",
                 backgroundImage: "url("+pihome.phstate?.wallpaper?.source+")",
                 backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
                 height: "100vh",
             }}
         >

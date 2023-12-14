@@ -16,7 +16,11 @@ const MediaPlayer = () => {
 
 
     useEffect(() => {
-        mediaPlayer.mutate({
+        // mediaPlayer.mutate({
+        //     "volume": volume
+        // });
+        pihome.send_payload({
+            "type": "audio",
             "volume": volume
         });
     }, [volume]);
@@ -40,15 +44,23 @@ const MediaPlayer = () => {
             </div>
             <div>
                 <Button onClick={() => {
-                    mediaPlayer.mutate({
-                        "play": url
+                    // mediaPlayer.mutate({
+                    //     "play": url
+                    // });
+                    pihome.send_payload({
+                        "type": "audio",
+                        "play_url": url
                     });
                     setUrl("");
                 }}>Play</Button>
                 <Button onClick={() => {
-                    mediaPlayer.mutate({
-                        "stop": true,
-                        "clear_queue": true
+                    // mediaPlayer.mutate({
+                    //     "stop": true,
+                    //     "clear_queue": true
+                    // });
+                    pihome.send_payload({
+                        "type": "audio",
+                        "stop": true
                     });
                 }}>Stop</Button>
             </div>
@@ -74,8 +86,12 @@ const MediaPlayer = () => {
                         return (
                             <div key={recent}>
                                 <Button onClick={() => {
-                                    mediaPlayer.mutate({
-                                        "play": recent
+                                    // mediaPlayer.mutate({
+                                    //     "play": recent
+                                    // });
+                                    pihome.send_payload({
+                                        "type": "audio",
+                                        "play_url": recent
                                     });
                                 }}>{recent}</Button>
                             </div>
