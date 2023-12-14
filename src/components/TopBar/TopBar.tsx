@@ -3,7 +3,12 @@ import { TfiMenu } from "react-icons/tfi"
 import "./TopBar.css";
 import IconButton from "../IconButton/IconButton";
 
-const TopBar = () => {
+interface Props {
+
+  onMenuClick?: () => void;
+}
+
+const TopBar = ({onMenuClick} : Props) => {
     return (
       <AppBar 
         position="static" 
@@ -13,7 +18,7 @@ const TopBar = () => {
         <div>
           <IconButton 
             icon={<TfiMenu />} 
-            onClick={() => console.log("clicked")}
+            onClick={() => onMenuClick && onMenuClick()}
           />
           <span>
             PiHome

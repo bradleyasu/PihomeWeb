@@ -3,11 +3,14 @@ import './App.css';
 import TopBar from './components/TopBar/TopBar';
 import { useState } from 'react';
 import { dark_theme, light_theme } from './theme';
-import { TextField } from '@mui/material';
+import { Button, Drawer, TextField } from '@mui/material';
 import { QueryClient } from '@tanstack/react-query';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import MediaPlayer from './components/MediaPlayer/MediaPlayer';
+import { useCurrentStatus } from './hooks/useStatus';
+import PiHome from './PiHome';
+import { PihomeStateProvider } from './providers/PihomeStateProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,10 +29,10 @@ const persister = createSyncStoragePersister({
 
 
 function App() {
-  const [dark, setDark] = useState(false)
-  
-  const [test, setTest] = useState("test")
-  
+  const [dark, setDark] = useState(false);
+  const [test, setTest] = useState("test");
+  const [open, setOpen] = useState(false);
+
   return (
     <PersistQueryClientProvider
       client={queryClient}
@@ -37,9 +40,19 @@ function App() {
     >
       <ThemeProvider theme={dark ? dark_theme : light_theme}>
         <div className="root-container">
-          <TopBar />
-          <div style={{paddingTop: "100px"}}>
-            <MediaPlayer />
+          <TopBar
+            onMenuClick={() => setOpen(!open)}
+          />
+          <div>
+            <Drawer
+              open={open}
+            >
+              <Button onClick={() => setDark(!dark)}>Toggle Dark</Button>
+              <Button onClick={() =>  {}}>Restart PiHome</Button>
+            </Drawer>
+            <PihomeStateProvider>
+              <PiHome />
+            </PihomeStateProvider>
           </div>
         </div>
       </ThemeProvider>

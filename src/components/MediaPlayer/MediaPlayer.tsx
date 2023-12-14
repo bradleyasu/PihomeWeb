@@ -5,18 +5,26 @@ import { BsFillVolumeDownFill, BsFillVolumeUpFill } from "react-icons/bs";
 import "./MediaPlayer.css"
 import { VERSION } from "../../Version";
 import useRecentMedia from "../../hooks/useRecentMedia";
+import { usePiHome } from "../../providers/PihomeStateProvider";
 
 const MediaPlayer = () => {
+    const pihome = usePiHome();
     const [url, setUrl] = useState<string>("");
     const [volume, setVolume] = useState<number>(100);
     const [ recents ] = useRecentMedia();
     const mediaPlayer = useMediaPlayer();
+
 
     useEffect(() => {
         mediaPlayer.mutate({
             "volume": volume
         });
     }, [volume]);
+
+    useEffect(() => {
+        if (!pihome.phstate?.audio?.volume) return;
+        setVolume(pihome.phstate?.audio?.volume);
+    }, [pihome.phstate]);
 
 
     return (
