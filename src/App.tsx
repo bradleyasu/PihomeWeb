@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@emotion/react';
 import './App.css';
 import TopBar from './components/TopBar/TopBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dark_theme, light_theme } from './theme';
 import { Button, Drawer, TextField } from '@mui/material';
 import { QueryClient } from '@tanstack/react-query';
@@ -11,6 +11,7 @@ import MediaPlayer from './components/MediaPlayer/MediaPlayer';
 import { useCurrentStatus } from './hooks/useStatus';
 import PiHome from './PiHome';
 import { PihomeStateProvider } from './providers/PihomeStateProvider';
+import PihomeDrawer from './components/Drawer/PihomeDrawer';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,9 +30,13 @@ const persister = createSyncStoragePersister({
 
 
 function App() {
-  const [dark, setDark] = useState(false);
-  const [test, setTest] = useState("test");
+  const [dark, setDark] = useState(localStorage.getItem("dark") === "true");
   const [open, setOpen] = useState(false);
+  const [currentView, setCurrentView] = useState("media");
+
+  useEffect(() => {
+    localStorage.setItem("dark", dark ? "true" : "false");
+  }, [dark]);
 
   return (
     <PersistQueryClientProvider
@@ -44,14 +49,27 @@ function App() {
             onMenuClick={() => setOpen(!open)}
           />
           <div>
-            <Drawer
-              open={open}
-            >
-              <Button onClick={() => setDark(!dark)}>Toggle Dark</Button>
-              <Button onClick={() =>  {}}>Restart PiHome</Button>
-            </Drawer>
             <PihomeStateProvider>
-              <PiHome />
+              <Drawer
+                open={open}
+              >
+                <PihomeDrawer 
+                  commands={[
+                    {
+                      name: "Toggle Dark Mode",
+                      onClick: () => setDark(!dark)
+                    },
+                    {
+                      name: "Shuffle Wallpaper",
+                      payload: {
+                        "type": "wallpaper_shuffle"
+                      }
+                    }
+                  ]}
+                  onClose={() => setOpen(false)}
+                />
+              </Drawer>
+              <PiHome view={currentView} />
             </PihomeStateProvider>
           </div>
         </div>

@@ -34,6 +34,10 @@ const MediaPlayer = () => {
     return (
         <div className={"media-player-container"}>
             <div>
+                <img src={pihome.phstate?.audio?.album_art} alt="" width={"256px"}/>
+                <h4>{pihome.phstate?.audio?.title || "No Media"}</h4>
+            </div>
+            <div>
                 <TextField 
                     value={url}
                     label="Url"
@@ -51,6 +55,7 @@ const MediaPlayer = () => {
                         "type": "audio",
                         "play_url": url
                     });
+                    recents.push(url);
                     setUrl("");
                 }}>Play</Button>
                 <Button onClick={() => {
