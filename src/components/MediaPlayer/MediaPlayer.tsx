@@ -33,8 +33,15 @@ const MediaPlayer = () => {
 
     return (
         <div className={"media-player-container"}>
-            <div>
-                <img src={pihome.phstate?.audio?.album_art} alt="" width={"256px"}/>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <img src={pihome.phstate?.audio?.album_art} alt="" width={"128px"} style={{borderRadius: "5px"}}/>
                 <h4>{pihome.phstate?.audio?.title || "No Media"}</h4>
             </div>
             <div>

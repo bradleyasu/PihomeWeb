@@ -1,0 +1,12 @@
+
+
+.screen_button {
+    width: 190px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}

@@ -2,6 +2,7 @@ import { Button, Divider } from "@mui/material";
 import MediaPlayer from "./components/MediaPlayer/MediaPlayer";
 import { MdOutlineWifiFind } from "react-icons/md";
 import { usePiHome } from "./providers/PihomeStateProvider";
+import ScreenControl from "./pages/ScreenControl";
 
 interface Props {
     view: string;
@@ -15,6 +16,7 @@ const PiHome = ({view}: Props) => {
     const views: {[key: string]: React.ReactNode} = {
         "media": <MediaPlayer />,
         "commands": <div>Commands</div>,
+        "screens": <ScreenControl />,
         "default": <div>Default</div>,
     };
 

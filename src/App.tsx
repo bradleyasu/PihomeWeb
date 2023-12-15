@@ -32,7 +32,7 @@ const persister = createSyncStoragePersister({
 function App() {
   const [dark, setDark] = useState(localStorage.getItem("dark") === "true");
   const [open, setOpen] = useState(false);
-  const [currentView, setCurrentView] = useState("media");
+  const [currentView, setCurrentView] = useState("screens");
 
   useEffect(() => {
     localStorage.setItem("dark", dark ? "true" : "false");
@@ -58,6 +58,14 @@ function App() {
                     {
                       name: "Toggle Dark Mode",
                       onClick: () => setDark(!dark)
+                    },
+                    {
+                      name: "Media Player",
+                      onClick: () => setCurrentView("media")
+                    },
+                    {
+                      name: "Screens",
+                      onClick: () => setCurrentView("screens")
                     },
                     {
                       name: "Shuffle Wallpaper",

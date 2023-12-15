@@ -1,4 +1,6 @@
-.media-player-container {
+
+
+.screen_control_container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,7 +8,6 @@
     /* justify-content: center; */
     width: 100%;
     row-gap: 50px;
-    background-color: rgba(255,255,255, 0.7);
     height: calc(100vh - 50px);
     overflow-y: scroll;
     overflow-x: hidden;
