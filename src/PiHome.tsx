@@ -1,8 +1,8 @@
 import { Button, Divider } from "@mui/material";
-import MediaPlayer from "./components/MediaPlayer/MediaPlayer";
 import { MdOutlineWifiFind } from "react-icons/md";
 import { usePiHome } from "./providers/PihomeStateProvider";
 import ScreenControl from "./pages/ScreenControl";
+import Media from "./pages/Media";
 
 interface Props {
     view: string;
@@ -14,7 +14,7 @@ const PiHome = ({view}: Props) => {
 
     // views is a key value pair where key is string and value is a react component
     const views: {[key: string]: React.ReactNode} = {
-        "media": <MediaPlayer />,
+        "media": <Media />,
         "commands": <div>Commands</div>,
         "screens": <ScreenControl />,
         "default": <div>Default</div>,
@@ -28,7 +28,7 @@ const PiHome = ({view}: Props) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "100vh",
+                height: "calc(100vh - 50px)",
                 width: "100vw",
                 overflow: "hidden",
                 flexDirection: "column",
@@ -58,8 +58,9 @@ const PiHome = ({view}: Props) => {
                 backgroundImage: "url("+pihome.phstate?.wallpaper?.source+")",
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
-                height: "100vh",
+                height: "calc(100vh - 60px)",
                 backgroundPosition: "center",
+                overflow: "hidden",
             }}
         >
             {!pihome.online ? renderConnecting() : views[view] }

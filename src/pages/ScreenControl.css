@@ -8,7 +8,7 @@
     /* justify-content: center; */
     width: 100%;
     row-gap: 50px;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 64px);
     overflow-y: scroll;
     overflow-x: hidden;
 }

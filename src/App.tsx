@@ -32,11 +32,15 @@ const persister = createSyncStoragePersister({
 function App() {
   const [dark, setDark] = useState(localStorage.getItem("dark") === "true");
   const [open, setOpen] = useState(false);
-  const [currentView, setCurrentView] = useState("screens");
+  const [currentView, setCurrentView] = useState(localStorage.getItem("view") || "screens");
 
   useEffect(() => {
     localStorage.setItem("dark", dark ? "true" : "false");
   }, [dark]);
+
+  useEffect(() => {
+    localStorage.setItem("view", currentView);
+  }, [currentView]);
 
   return (
     <PersistQueryClientProvider
@@ -71,6 +75,12 @@ function App() {
                       name: "Shuffle Wallpaper",
                       payload: {
                         "type": "wallpaper_shuffle"
+                      }
+                    },
+                    {
+                      name: "Reload PWA",
+                      onClick: () => {
+                        window.location.reload();
                       }
                     }
                   ]}

@@ -1,0 +1,12 @@
+
+
+.media_container {
+    display: flex;
+    height: calc(100vh - 64px);
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+}
