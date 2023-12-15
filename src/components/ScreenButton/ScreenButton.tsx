@@ -14,17 +14,16 @@ interface Props {
 const ScreenButton = ({screen, id, onClick, isActive = false}: Props) => {
 
     return (
-        <Card 
+        <div
             onClick={() => {onClick && onClick()}}
             className={"screen_button"} 
-            raised={isActive}
-            style={{
-                opacity: isActive ? 1 : 0.9,
-            }}
+            style={isActive ?{
+                backgroundColor: "rgba(255,255,255,0.9)"
+            } : {}}
         >
             <img src={screen.icon} alt={screen.label} width="50%"/>
             <Typography variant="h5">{screen.label}</Typography>
-        </Card>
+        </div>
     )
 }
 

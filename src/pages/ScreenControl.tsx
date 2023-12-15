@@ -22,8 +22,7 @@ const ScreenControl = () => {
             "screen": id,
         });
     }
-
-    console.log(currentScreen);
+    
     return (
         <Container maxWidth="md" className={"screen_control_container"} >
             <Grid 
@@ -33,7 +32,8 @@ const ScreenControl = () => {
                 alignItems={"center"}
                 justifyContent={"center"}
             >
-                {screens?.screens?.map((screen: any) => {
+                {screens?.screens?.filter((screen: any) => screen[Object.keys(screen)[0]]?.hidden === false && screen[Object.keys(screen)[0]]?.requires_pin === false)
+                .map((screen: any) => {
                     const id = Object.keys(screen)[0] as string;
                     const _screen = screen[id];
                     return <ScreenButton isActive={id === currentScreen} screen={_screen} id={id} onClick={() => handleClick(id)}/>
