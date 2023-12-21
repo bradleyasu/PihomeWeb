@@ -47,6 +47,7 @@ const PihomeDrawer = ({commands, onClose}: Props) => {
                                     sendPayload(command.payload);
                                 }
                                 command.onClick && command.onClick();
+                                onClose();
                             }
                         }>
                             {command.icon}
