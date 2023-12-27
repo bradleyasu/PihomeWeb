@@ -1,4 +1,4 @@
-import { Button, Slider, Stack, TextField } from "@mui/material";
+import { Button, Icon, Slider, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useMediaPlayer } from "../../hooks/useMediaPlayer";
 import { BsFillVolumeDownFill, BsFillVolumeUpFill } from "react-icons/bs";
@@ -6,6 +6,7 @@ import "./MediaPlayer.css"
 import { VERSION } from "../../Version";
 import useRecentMedia from "../../hooks/useRecentMedia";
 import { usePiHome } from "../../providers/PihomeStateProvider";
+import { MdPlayArrow, MdSkipNext, MdSkipPrevious, MdStop } from "react-icons/md";
 
 const MediaPlayer = () => {
     const pihome = usePiHome();
@@ -53,7 +54,16 @@ const MediaPlayer = () => {
                     
                 />
             </div>
-            <div>
+            <div className="media-controls">
+                <Button onClick={() => {
+                    pihome.send_payload({
+                        "type": "audio",
+                        "prev": true
+                    });
+                }}
+                >
+                    <MdSkipPrevious />
+                </Button>
                 <Button onClick={() => {
                     // mediaPlayer.mutate({
                     //     "play": url
@@ -64,7 +74,15 @@ const MediaPlayer = () => {
                     });
                     recents.push(url);
                     setUrl("");
-                }}>Play</Button>
+                }}>
+                    <MdPlayArrow />
+                </Button>
+                <Button onClick={() => {
+                    pihome.send_payload({
+                        "type": "audio",
+                        "next": true
+                    });
+                }}><MdSkipNext /></Button>
                 <Button onClick={() => {
                     // mediaPlayer.mutate({
                     //     "stop": true,
@@ -74,7 +92,9 @@ const MediaPlayer = () => {
                         "type": "audio",
                         "stop": true
                     });
-                }}>Stop</Button>
+                }}>
+                    <MdStop />
+                </Button>
             </div>
             <div style={{width: "60%"}}>
                 <Stack 

@@ -17,3 +17,16 @@
     border: 1px solid rgba(255,255,255, 0.18);
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
+
+.media-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.media-controls > * {
+    font-size: 2.5rem !important;
+}
