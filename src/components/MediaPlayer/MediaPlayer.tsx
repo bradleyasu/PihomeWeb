@@ -10,13 +10,12 @@ import { MdPlayArrow, MdSkipNext, MdSkipPrevious, MdStop } from "react-icons/md"
 const MediaPlayer = () => {
     const pihome = usePiHome();
     const [url, setUrl] = useState<string>("");
-    const [volume, setVolume] = useState<number>(100);
-
+    const [volume, setVolume] = useState<number>(101);
 
     useEffect(() => {
-        // mediaPlayer.mutate({
-        //     "volume": volume
-        // });
+        // do not send if first load
+        if (volume === 101) return;
+
         pihome.send_payload({
             "type": "audio",
             "volume": volume
