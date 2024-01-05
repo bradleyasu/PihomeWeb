@@ -1,7 +1,9 @@
-import { Container, Grid } from "@mui/material";
+import { Button, Container, Grid, Switch } from "@mui/material";
 import ScreenButton from "../components/ScreenButton/ScreenButton";
 import { usePiHome } from "../providers/PihomeStateProvider";
 import "./ScreenControl.css";
+import { useState } from "react";
+import { VERSION } from "../Version";
 
 
 export type Screen = {
@@ -15,6 +17,7 @@ const ScreenControl = () => {
     const pihome = usePiHome();
     const screens = pihome?.phstate?.screens;
     const currentScreen = screens?.current;
+    const [hideScreens, setHideScreens] = useState(false);
 
     const handleClick = (id: string) => {
         pihome.send_payload({
@@ -25,6 +28,27 @@ const ScreenControl = () => {
     
     return (
         <Container maxWidth="md" className={"screen_control_container"} >
+            <Container
+                className={"screen_control_header"}
+                style={hideScreens ? {
+                    opacity: 0.6,
+                }: {}}
+            >
+                <div>
+                    {new Date().toLocaleDateString()} {new Date().toLocaleTimeString()}
+                </div>
+                <div>
+                    PiHome V{VERSION}
+                </div>
+                <div>
+                    <Switch
+                        checked={hideScreens}
+                        onChange={() => setHideScreens(!hideScreens)}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                    <span>Hide Screens</span>
+                </div>
+            </Container>
             <Grid 
                 container 
                 padding={"10px"}
@@ -32,7 +56,7 @@ const ScreenControl = () => {
                 alignItems={"center"}
                 justifyContent={"center"}
             >
-                {screens?.screens?.filter((screen: any) => screen[Object.keys(screen)[0]]?.hidden === false && screen[Object.keys(screen)[0]]?.requires_pin === false)
+                {screens?.screens?.filter((screen: any) => hideScreens === false && screen[Object.keys(screen)[0]]?.hidden === false && screen[Object.keys(screen)[0]]?.requires_pin === false)
                 .map((screen: any) => {
                     const id = Object.keys(screen)[0] as string;
                     const _screen = screen[id];

@@ -4,7 +4,6 @@ import { useMediaPlayer } from "../../hooks/useMediaPlayer";
 import { BsFillVolumeDownFill, BsFillVolumeUpFill } from "react-icons/bs";
 import "./MediaPlayer.css"
 import { VERSION } from "../../Version";
-import useRecentMedia from "../../hooks/useRecentMedia";
 import { usePiHome } from "../../providers/PihomeStateProvider";
 import { MdPlayArrow, MdSkipNext, MdSkipPrevious, MdStop } from "react-icons/md";
 
@@ -12,8 +11,6 @@ const MediaPlayer = () => {
     const pihome = usePiHome();
     const [url, setUrl] = useState<string>("");
     const [volume, setVolume] = useState<number>(100);
-    const [ recents ] = useRecentMedia();
-    const mediaPlayer = useMediaPlayer();
 
 
     useEffect(() => {
@@ -51,7 +48,6 @@ const MediaPlayer = () => {
                     label="Url"
                     variant="standard"
                     onChange={(e) => setUrl(e.target.value)}
-                    
                 />
             </div>
             <div className="media-controls">
@@ -68,11 +64,11 @@ const MediaPlayer = () => {
                     // mediaPlayer.mutate({
                     //     "play": url
                     // });
+                    localStorage.setItem("last_played", url)
                     pihome.send_payload({
                         "type": "audio",
                         "play_url": url
                     });
-                    recents.push(url);
                     setUrl("");
                 }}>
                     <MdPlayArrow />
@@ -113,29 +109,12 @@ const MediaPlayer = () => {
                 </Stack>
             </div>
             <div>
-                {
-                    recents.map((recent: string) => {
-                        return (
-                            <div key={recent}>
-                                <Button onClick={() => {
-                                    // mediaPlayer.mutate({
-                                    //     "play": recent
-                                    // });
-                                    pihome.send_payload({
-                                        "type": "audio",
-                                        "play_url": recent
-                                    });
-                                }}>{recent}</Button>
-                            </div>
-                        )
+                <Button onClick={() => {
+                    pihome.send_payload({
+                        "type": "audio",
+                        "play_url": localStorage.getItem("last_played")
                     })
-                }
-            </div>
-            <div>
-                {
-                    /// this will need to be moved
-                }
-                Version: {VERSION}
+                }}>{localStorage.getItem("last_played")}</Button>
             </div>
         </div>
     )
