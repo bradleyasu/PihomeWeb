@@ -1,9 +1,7 @@
-import { Button, Icon, Slider, Stack, TextField } from "@mui/material";
+import { Button, Slider, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useMediaPlayer } from "../../hooks/useMediaPlayer";
 import { BsFillVolumeDownFill, BsFillVolumeUpFill } from "react-icons/bs";
 import "./MediaPlayer.css"
-import { VERSION } from "../../Version";
 import { usePiHome } from "../../providers/PihomeStateProvider";
 import { MdPlayArrow, MdSkipNext, MdSkipPrevious, MdStop } from "react-icons/md";
 
