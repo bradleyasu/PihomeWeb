@@ -4,6 +4,7 @@ import { usePiHome } from "../providers/PihomeStateProvider";
 import "./ScreenControl.css";
 import { useState } from "react";
 import { VERSION } from "../Version";
+import Timer from "../components/Timer/Timer";
 
 
 export type Screen = {
@@ -17,6 +18,7 @@ const ScreenControl = () => {
     const pihome = usePiHome();
     const screens = pihome?.phstate?.screens;
     const currentScreen = screens?.current;
+    const timers = pihome?.phstate?.timers;
     const [hideScreens, setHideScreens] = useState(false);
 
     const handleClick = (id: string) => {
@@ -49,6 +51,19 @@ const ScreenControl = () => {
                     <span>Hide Screens</span>
                 </div>
             </Container>
+            <div
+                className={"timer_container"}
+            >
+            {
+                timers?.map((timer: any) => <Timer 
+                        label={timer.label}
+                        endTime={timer.end_time}
+                        duration={timer.duration}
+                        elapsed={timer.elapsed_time}
+                    />
+                 )
+            }
+            </div>
             <Grid 
                 container 
                 padding={"10px"}

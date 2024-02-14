@@ -30,3 +30,13 @@
 .screen_control_header > div {
     display: inline-block;
 }
+
+.timer_container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+}
