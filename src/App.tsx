@@ -7,8 +7,6 @@ import { Button, Drawer, TextField } from '@mui/material';
 import { QueryClient } from '@tanstack/react-query';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import MediaPlayer from './components/MediaPlayer/MediaPlayer';
-import { useCurrentStatus } from './hooks/useStatus';
 import PiHome from './PiHome';
 import { PihomeStateProvider } from './providers/PihomeStateProvider';
 import PihomeDrawer from './components/Drawer/PihomeDrawer';
@@ -70,6 +68,10 @@ function App() {
                     {
                       name: "Screens",
                       onClick: () => setCurrentView("screens")
+                    },
+                    {
+                      name: "Timers",
+                      onClick: () => setCurrentView("timers")
                     },
                     {
                       name: "Shuffle Wallpaper",

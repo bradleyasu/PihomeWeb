@@ -3,6 +3,7 @@ import { MdOutlineWifiFind } from "react-icons/md";
 import { usePiHome } from "./providers/PihomeStateProvider";
 import ScreenControl from "./pages/ScreenControl";
 import Media from "./pages/Media";
+import Timers from "./pages/Timers";
 
 interface Props {
     view: string;
@@ -17,6 +18,7 @@ const PiHome = ({view}: Props) => {
         "media": <Media />,
         "commands": <div>Commands</div>,
         "screens": <ScreenControl />,
+        "timers": <Timers />,
         "default": <div>Default</div>,
     };
 
