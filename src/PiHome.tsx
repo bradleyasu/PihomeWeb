@@ -4,6 +4,7 @@ import { usePiHome } from "./providers/PihomeStateProvider";
 import ScreenControl from "./pages/ScreenControl";
 import Media from "./pages/Media";
 import Timers from "./pages/Timers";
+import TaskManager from "./pages/TaskManager";
 
 interface Props {
     view: string;
@@ -20,6 +21,7 @@ const PiHome = ({view}: Props) => {
         "screens": <ScreenControl />,
         "timers": <Timers />,
         "default": <div>Default</div>,
+        "tasks_manager": <TaskManager />,
     };
 
 

@@ -27,7 +27,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "./bump_version.sh && react-scripts build && cp -r build/* ../pihome/web/. ",
-    "deploy": "yarn build && cd ../pihome && git add --all && git commit -m 'deploy web' && git push && cd -",
+    "deploy": "yarn clean && yarn build && cd ../pihome && git add --all && git commit -m 'deploy web' && git push && cd -",
+    "clean": "rm -rf build && rm -rf ../pihome/web/*",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -19,14 +19,14 @@ const Timers = () => {
             <Container
                 className={"no_timers"}
             >
-                <h3>No Timers</h3>
+                <h5>No Timers Set</h5>
             </Container>
         )
     }
 
     const newTimerForm = () => {
         return (
-            <Container className="new_timer">
+            <div className="new_timer">
                 <Input 
                     value={label}
                     onChange={(e) => setLabel(e.target.value)}
@@ -54,7 +54,7 @@ const Timers = () => {
                     }}
                 >Create New Timer</Button>
 
-            </Container>
+            </div>
         )
 
     }

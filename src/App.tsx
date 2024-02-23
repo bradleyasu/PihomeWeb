@@ -74,6 +74,10 @@ function App() {
                       onClick: () => setCurrentView("timers")
                     },
                     {
+                      name: "Task Manager",
+                      onClick: () => setCurrentView("tasks_manager")
+                    },
+                    {
                       name: "Shuffle Wallpaper",
                       payload: {
                         "type": "wallpaper_shuffle"
