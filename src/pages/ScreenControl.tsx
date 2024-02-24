@@ -78,6 +78,25 @@ const ScreenControl = () => {
                     return <ScreenButton isActive={id === currentScreen} screen={_screen} id={id} onClick={() => handleClick(id)}/>
                 })}
             </Grid>
+            <Grid
+                container
+                padding={"50px"}
+                alignContent={"center"}
+                alignItems={"center"}
+                justifyContent={"center"}
+            >
+                <Button 
+                    variant="contained"
+                    color="error"
+                    onClick={() => {
+                        pihome.send_payload({
+                            "type": "app",
+                            "app": "_shutdown",
+                        });
+                    }}>
+                    RESTART PIHOME
+                </Button>
+            </Grid>
         </Container>
     )
 }
