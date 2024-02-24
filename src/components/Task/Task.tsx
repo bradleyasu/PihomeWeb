@@ -17,7 +17,14 @@ interface TaskProps {
 const Task = ({task}: TaskProps) => {
 
     return (
-        <div className="task">
+        <div 
+            className="task"
+            style={task.status.toLowerCase() === "in_progress" ? {
+                backgroundColor: "#00aaff50",
+                color: "white",
+                border: "1px solid #00aaff"
+            } : {}}
+        >
             <div className="task-top">
                 <h3>{task.name}</h3>
                 <p>{task.description}</p>
@@ -26,7 +33,9 @@ const Task = ({task}: TaskProps) => {
             <div className="task-bottom">
                 <p>{task.start_time}</p>
                 <p>{task.status}</p>
-                <p>{task.priority}</p>
+                <p>
+                    <div className={`led-${task.priority.toLowerCase()}`} />
+                </p>
             </div>
         </div>
     )
