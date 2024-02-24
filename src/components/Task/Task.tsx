@@ -1,4 +1,5 @@
 import "./Task.css"
+import TaskConfirm from "./TaskConfirm"
 
 type TaskType = {
     id: string,
@@ -21,12 +22,12 @@ const Task = ({task}: TaskProps) => {
                 <h3>{task.name}</h3>
                 <p>{task.description}</p>
             </div>
+            {task.status.toLowerCase() === "in_progress" && <TaskConfirm />}
             <div className="task-bottom">
                 <p>{task.start_time}</p>
                 <p>{task.status}</p>
                 <p>{task.priority}</p>
             </div>
-
         </div>
     )
 }

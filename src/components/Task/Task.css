@@ -4,15 +4,15 @@
     border-radius: 10px;
     background: #f4f4f4aa;
     width: 300px;
-    height: 200px;
-    border: 1px solid #ababab;
-    box-shadow: 0 0 10px #ababab;
+    min-height: 100px;
+    border: 1px solid #484848;
+    box-shadow: 0 0 10px #242424;
     backdrop-filter: blur(10px);
-    padding-bottom: 30px;
+    padding-bottom: 10px;
 }
 
 .task-top {
-    height: 180px;
+    height: 80px;
 }
 .task-bottom {
     display: flex;
