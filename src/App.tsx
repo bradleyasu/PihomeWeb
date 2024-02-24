@@ -80,7 +80,8 @@ function App() {
                     {
                       name: "Shuffle Wallpaper",
                       payload: {
-                        "type": "wallpaper_shuffle"
+                        "type": "wallpaper",
+                        "action": "shuffle"
                       }
                     },
                     {

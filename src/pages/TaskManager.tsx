@@ -1,17 +1,15 @@
-import { render } from "@testing-library/react";
 import { usePiHome } from "../providers/PihomeStateProvider";
 import "./TaskManager.css";
-import { Container } from "@mui/material";
 import Task from "../components/Task/Task";
 
 const TaskManager = () => {
     const pihome = usePiHome();
     const tasks = pihome?.phstate?.tasks;
 
-    if (!tasks) {
+    if (!tasks || tasks.length === 0) {
         return (
             <div
-                className={"task_manager_container"}
+                className={"task_manager_error"}
             >
                 <h1>Task Manager</h1>
                 <p>No tasks found</p>
@@ -23,12 +21,19 @@ const TaskManager = () => {
         <div
             className={"task_manager_container"}
         >
-            {tasks.map((task: any, index: number) => {
+            {tasks
+            .filter((task: any) => task.status.toLowerCase() !== "completed")
+            .sort((a: any, b: any) => {
+                // We want the in_progress tasks to be at the top
+                if (a.status.toLowerCase() === "in_progress") {
+                    return -1;
+                }
+            })
+            .map((task: any, index: number)=> {
                 return (
                     <Task key={index} task={task} />
                 )
             })}
-
         </div>
     )
 }

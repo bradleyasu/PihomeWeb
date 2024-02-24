@@ -23,8 +23,8 @@ const ScreenControl = () => {
 
     const handleClick = (id: string) => {
         pihome.send_payload({
-            "type": "screen",
-            "screen": id,
+            "type": "app",
+            "app": id,
         });
     }
     

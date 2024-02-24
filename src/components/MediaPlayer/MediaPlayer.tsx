@@ -16,7 +16,8 @@ const MediaPlayer = () => {
 
         pihome.send_payload({
             "type": "audio",
-            "volume": volume
+            "action": "volume",
+            "value": volume
         });
     }, [volume]);
 
@@ -51,7 +52,7 @@ const MediaPlayer = () => {
                 <Button onClick={() => {
                     pihome.send_payload({
                         "type": "audio",
-                        "prev": true
+                        "action": "prev"
                     });
                 }}
                 >
@@ -64,7 +65,8 @@ const MediaPlayer = () => {
                     localStorage.setItem("last_played", url)
                     pihome.send_payload({
                         "type": "audio",
-                        "play_url": url
+                        "action": "play_url",
+                        "value": url
                     });
                     setUrl("");
                 }}>
@@ -73,7 +75,7 @@ const MediaPlayer = () => {
                 <Button onClick={() => {
                     pihome.send_payload({
                         "type": "audio",
-                        "next": true
+                        "action": "next"
                     });
                 }}><MdSkipNext /></Button>
                 <Button onClick={() => {
@@ -83,7 +85,7 @@ const MediaPlayer = () => {
                     // });
                     pihome.send_payload({
                         "type": "audio",
-                        "stop": true
+                        "action": "stop"
                     });
                 }}>
                     <MdStop />
@@ -109,7 +111,8 @@ const MediaPlayer = () => {
                 <Button onClick={() => {
                     pihome.send_payload({
                         "type": "audio",
-                        "play_url": localStorage.getItem("last_played")
+                        "action": "play_url",
+                        "value": localStorage.getItem("last_played")
                     })
                 }}>{localStorage.getItem("last_played")}</Button>
             </div>

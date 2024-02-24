@@ -9,3 +9,20 @@
     overflow-y: auto;
     height: calc(100vh - 100px);
 }
+
+.task_manager_error {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+    padding: 20px;
+    gap: 10px;
+    overflow-y: auto;
+    color: black;
+    background: white;
+    width: 300px;
+    margin: auto auto;
+    border-radius: 20px;
+    margin-top: 10px;
+}
