@@ -84,7 +84,33 @@ const ScreenControl = () => {
                 alignContent={"center"}
                 alignItems={"center"}
                 justifyContent={"center"}
+                columnGap={"20px"}
+                rowGap={"30px"}
+                style={{marginBottom: "20px"}}
             >
+                <Button
+                    variant="contained"
+                    color="warning"
+                    onClick={() => {
+                        if (!pihome.phstate?.wallpaper?.source) return;
+                        pihome.send_payload({
+                            "type": "wallpaper",
+                            "action": "ban",
+                            "value": pihome.phstate?.wallpaper?.source
+                        });
+                        pihome.send_payload({
+                            "type": "wallpaper",
+                            "action": "shuffle"
+                        });
+                        pihome.send_payload({
+                            "type": "sfx",
+                            "name": "trash"
+                        });
+                    }}
+                >
+                   Ban Wallpaper
+                </Button>
+
                 <Button 
                     variant="contained"
                     color="error"
