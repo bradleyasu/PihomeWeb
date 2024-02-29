@@ -102,7 +102,7 @@ const MediaPlayer = () => {
                     <Slider 
                         aria-label="Volume" 
                         value={volume} 
-                        onChange={(e, newValue) => setVolume(newValue as number)} 
+                        onChangeCommitted={(e, newValue) => setVolume(newValue as number)}
                     />
                     <BsFillVolumeUpFill />
                 </Stack>

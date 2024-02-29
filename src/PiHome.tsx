@@ -5,6 +5,7 @@ import ScreenControl from "./pages/ScreenControl";
 import Media from "./pages/Media";
 import Timers from "./pages/Timers";
 import TaskManager from "./pages/TaskManager";
+import EventManager from "./pages/EventManager";
 
 interface Props {
     view: string;
@@ -22,6 +23,7 @@ const PiHome = ({view}: Props) => {
         "timers": <Timers />,
         "default": <div>Default</div>,
         "tasks_manager": <TaskManager />,
+        "events": <EventManager />,
     };
 
 

@@ -78,6 +78,10 @@ function App() {
                       onClick: () => setCurrentView("tasks_manager")
                     },
                     {
+                      name: "Event Manager",
+                      onClick: () => setCurrentView("events")
+                    },
+                    {
                       name: "Shuffle Wallpaper",
                       payload: {
                         "type": "wallpaper",
