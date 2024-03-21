@@ -9,11 +9,21 @@ const MediaPlayer = () => {
     const pihome = usePiHome();
     const [url, setUrl] = useState<string>("");
     const [volume, setVolume] = useState<number>(101);
+    const [sliderVolume, setSliderVolume] = useState<number>(101);
+    const [lastUpdate, setLastUpdate] = useState<number>(0);
 
+    const states = [
+        "Stopped",
+        "Playing",
+        "Paused",
+        "Fetching",
+        "Buffering"
+    ]
     useEffect(() => {
         // do not send if first load
         if (volume === 101) return;
 
+        setLastUpdate(Date.now());
         pihome.send_payload({
             "type": "audio",
             "action": "volume",
@@ -23,6 +33,11 @@ const MediaPlayer = () => {
 
     useEffect(() => {
         if (!pihome.phstate?.audio?.volume) return;
+        if(sliderVolume === 101) {
+            setSliderVolume(pihome.phstate?.audio?.volume);
+        }
+        // only set the volume if the last update was more than 3 seconds ago
+        if (Date.now() - lastUpdate < 3000) return;
         setVolume(pihome.phstate?.audio?.volume);
     }, [pihome.phstate]);
 
@@ -39,6 +54,7 @@ const MediaPlayer = () => {
             >
                 <img src={pihome.phstate?.audio?.album_art} alt="" width={"128px"} style={{borderRadius: "5px"}}/>
                 <h4>{pihome.phstate?.audio?.title || "No Media"}</h4>
+                <span>{states[pihome.phstate?.audio?.state]}</span>
             </div>
             <div>
                 <TextField 
@@ -101,7 +117,8 @@ const MediaPlayer = () => {
                     <BsFillVolumeDownFill />
                     <Slider 
                         aria-label="Volume" 
-                        value={volume} 
+                        value={sliderVolume} 
+                        onChange={(e, newValue) => setSliderVolume(newValue as number)}
                         onChangeCommitted={(e, newValue) => setVolume(newValue as number)}
                     />
                     <BsFillVolumeUpFill />
