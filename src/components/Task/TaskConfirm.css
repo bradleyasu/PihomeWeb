@@ -1,4 +1,3 @@
-
 .task-confirm-container {
     display: flex;
     flex-direction: row;
@@ -17,4 +16,55 @@
     width: 60px;
     border: 2px solid #484848;
     border-radius: 20px;;
+}
+
+.task-action-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.task-action-button {
+    transition: all 0.2s ease !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    border-radius: 50% !important;
+}
+
+.task-in-progress .task-action-button {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.task-action-button:hover {
+    transform: scale(1.1);
+}
+
+.task-action-button.confirm {
+    color: #4caf50 !important;
+}
+
+.task-action-button.confirm:hover {
+    background-color: rgba(76, 175, 80, 0.2) !important;
+}
+
+.task-action-button.reject {
+    color: #f44336 !important;
+}
+
+.task-action-button.reject:hover {
+    background-color: rgba(244, 67, 54, 0.2) !important;
+}
+
+.task-in-progress .task-action-button.confirm,
+.task-in-progress .task-action-button.reject {
+    color: white !important;
+}
+
+.task-in-progress .task-action-button.confirm:hover {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.task-in-progress .task-action-button.reject:hover {
+    background-color: rgba(255, 255, 255, 0.3) !important;
 }

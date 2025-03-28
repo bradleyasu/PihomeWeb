@@ -1,7 +1,6 @@
 import "./TaskConfirm.css"
-import CheckIcon from '@mui/icons-material/Check';
-import { Close } from "@mui/icons-material";
-import { Delete } from "@mui/icons-material";
+import { Check, Close, Delete } from "@mui/icons-material";
+import { IconButton, Tooltip, Box } from "@mui/material";
 import { usePiHome } from "../../providers/PihomeStateProvider";
 
 interface TaskProps {
@@ -9,7 +8,7 @@ interface TaskProps {
     task_id: string
 }
 
-const Task = ({in_progress, task_id}: TaskProps) => {
+const TaskConfirm = ({in_progress, task_id}: TaskProps) => {
     const pihome = usePiHome();
 
     const ackTask = (isConfirmed: boolean) => {
@@ -29,31 +28,42 @@ const Task = ({in_progress, task_id}: TaskProps) => {
 
     if (!in_progress) {
         return (
-        <div className="task-confirm-container">
-            <div className="task-confirm-btn" style={{borderColor: '#424242'}}
-                onClick={() => deleteTask(task_id)}
-            >
-                <Delete />
-            </div>
-        </div>
-
+            <Box className="task-action-container">
+                <Tooltip title="Delete task">
+                    <IconButton 
+                        className="task-action-button" 
+                        onClick={() => deleteTask(task_id)}
+                        size="small"
+                    >
+                        <Delete />
+                    </IconButton>
+                </Tooltip>
+            </Box>
         )
     }
 
     return (
-        <div className="task-confirm-container">
-            <div className="task-confirm-btn" style={{borderColor: 'green'}}
-            onClick={() => ackTask(true)}
-            >
-                <CheckIcon />
-            </div>
-            <div className="task-confirm-btn" style={{borderColor: 'red'}}
-                onClick={() => ackTask(false)}
-            >
-                <Close />
-            </div>
-        </div>
+        <Box className="task-action-container">
+            <Tooltip title="Complete task">
+                <IconButton 
+                    className="task-action-button confirm" 
+                    onClick={() => ackTask(true)}
+                    size="medium"
+                >
+                    <Check />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Reject task">
+                <IconButton 
+                    className="task-action-button reject" 
+                    onClick={() => ackTask(false)}
+                    size="medium"
+                >
+                    <Close />
+                </IconButton>
+            </Tooltip>
+        </Box>
     )
 }
 
-export default Task;
+export default TaskConfirm;
