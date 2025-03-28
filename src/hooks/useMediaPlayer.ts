@@ -1,15 +1,11 @@
-import { useMutation } from "@tanstack/react-query"
-import { axiosClient } from "../AxiosClient";
-import useRecentMedia from "./useRecentMedia";
+import { useQuery } from '@tanstack/react-query';
+import { axiosClient } from '../AxiosClient';
 
+const getStatus= () => {
+    const promise = axiosClient.get(`/status/audio`, {});
+    return promise;
+}
 
-export const useMediaPlayer = () => {
-    const [ recents, setRecents ] = useRecentMedia();
-
-    return useMutation((data: any) => {
-        if (data.play && recents.indexOf(data.play) === -1) {
-            setRecents([...recents, data.play]);
-        }
-        return axiosClient.post('', data);
-    });
+export const useCurrentStatus= () => {
+    return useQuery(['getCurrentStatus'], () => getStatus(), {});
 }

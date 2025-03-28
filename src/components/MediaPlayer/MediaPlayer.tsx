@@ -1,9 +1,10 @@
-import { Button, Slider, Stack, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, Menu, MenuItem, Select, Slider, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BsFillVolumeDownFill, BsFillVolumeUpFill } from "react-icons/bs";
 import "./MediaPlayer.css"
 import { usePiHome } from "../../providers/PihomeStateProvider";
 import { MdPlayArrow, MdSkipNext, MdSkipPrevious, MdStop } from "react-icons/md";
+import { useCurrentStatus } from "../../hooks/useStatus";
 
 const MediaPlayer = () => {
     const pihome = usePiHome();
@@ -11,6 +12,7 @@ const MediaPlayer = () => {
     const [volume, setVolume] = useState<number>(101);
     const [sliderVolume, setSliderVolume] = useState<number>(101);
     const [lastUpdate, setLastUpdate] = useState<number>(0);
+    const audioStatus = useCurrentStatus("audio");
 
     const states = [
         "Stopped",
@@ -123,6 +125,38 @@ const MediaPlayer = () => {
                     />
                     <BsFillVolumeUpFill />
                 </Stack>
+            </div>
+            <div
+                style={{
+                    width: "100%",
+                    paddingLeft: "20%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
+                <FormControl fullWidth>
+                    <InputLabel>Saved Radio Stations:</InputLabel>
+                    <Select
+                        label="Radio Stations"
+                        variant="standard"
+                        defaultValue=""
+                        style={{
+                            width: "80%"
+                        }}
+                    >
+                        {
+                            audioStatus?.data?.data.radio.map((station: any) => {
+                                return <MenuItem key={station.id} onClick={() => {
+                                    pihome.send_payload({
+                                        "type": "audio",
+                                        "action": "play_url",
+                                        "value": station.url
+                                    })
+                                }}>{station.text}</MenuItem>})
+                            }
+                    </Select>
+                </FormControl>
             </div>
             <div>
                 <Button onClick={() => {
