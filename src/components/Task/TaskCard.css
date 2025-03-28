@@ -88,6 +88,7 @@
 }
 
 .task-actions {
+    margin-top: -12px;
     gap: 12px;
     min-height: 68px; /* Set minimum height for action area */
     display: flex;
@@ -96,16 +97,16 @@
 }
 
 .task-actions .MuiButton-root {
-    padding: 8px 16px !important;
+    padding: 0px 0px !important;
     height: 36px;
 }
 
 .task-actions .MuiIconButton-root {
-    margin: 4px;
+    margin: 0px;
 }
 
 .delete-button {
-    margin-top: -20px !important;
+    margin-top: -6px !important;
     color: var(--text-light-color) !important;
     transition: all 0.2s ease;
 }

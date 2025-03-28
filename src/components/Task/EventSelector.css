@@ -41,14 +41,52 @@
 .event-fields {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   margin-top: 16px;
+}
+
+.event-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-comment {
+  padding: 8px;
+  background-color: var(--comment-bg-color);
+  border-radius: 4px;
+  margin-bottom: 12px;
 }
 
 .event-actions-footer {
   display: flex;
   justify-content: flex-end;
   margin-top: 16px;
+}
+
+.multi-events-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 12px;
+  background-color: var(--multi-events-bg);
+  border-radius: 6px;
+}
+
+.multi-event-item {
+  padding: 8px;
+  border: 1px dashed var(--divider-color);
+  border-radius: 4px;
+  background-color: var(--multi-event-bg);
+}
+
+.json-field-container {
+  margin-top: 8px;
+}
+
+.json-editor {
+  background-color: var(--json-editor-bg);
+  padding: 8px;
+  border-radius: 4px;
 }
 
 /* Light theme colors */
@@ -59,6 +97,10 @@
   --divider-color: rgba(0, 0, 0, 0.12);
   --chip-bg-color: rgba(0, 0, 0, 0.08);
   --chip-color: rgba(0, 0, 0, 0.87);
+  --comment-bg-color: rgba(33, 150, 243, 0.08);
+  --multi-events-bg: rgba(0, 0, 0, 0.02);
+  --multi-event-bg: rgba(255, 255, 255, 0.8);
+  --json-editor-bg: rgba(0, 0, 0, 0.03);
 }
 
 /* Dark theme colors */
@@ -69,6 +111,10 @@
   --divider-color: rgba(255, 255, 255, 0.12);
   --chip-bg-color: rgba(255, 255, 255, 0.1);
   --chip-color: rgba(255, 255, 255, 0.87);
+  --comment-bg-color: rgba(33, 150, 243, 0.15);
+  --multi-events-bg: rgba(255, 255, 255, 0.03);
+  --multi-event-bg: rgba(30, 30, 30, 0.4);
+  --json-editor-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* Mobile adjustments */
@@ -79,5 +125,9 @@
   
   .event-config {
     padding: 12px;
+  }
+  
+  .multi-events-container {
+    padding: 8px;
   }
 }
