@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 200px; /* Ensure a minimum height for cards */
+    min-height: 230px; /* Increased minimum height to accommodate buttons */
     border-radius: 12px !important;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
@@ -88,11 +88,24 @@
 }
 
 .task-actions {
-    padding: 16px !important;
-    gap: 8px;
+    gap: 12px;
+    min-height: 68px; /* Set minimum height for action area */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-actions .MuiButton-root {
+    padding: 8px 16px !important;
+    height: 36px;
+}
+
+.task-actions .MuiIconButton-root {
+    margin: 4px;
 }
 
 .delete-button {
+    margin-top: -20px !important;
     color: var(--text-light-color) !important;
     transition: all 0.2s ease;
 }
@@ -132,7 +145,7 @@
 @media (max-width: 600px) {
     .task-card {
         border-radius: 8px !important;
-        min-height: 180px; /* Slightly smaller minimum height for mobile */
+        min-height: 210px; /* Still increased but slightly smaller for mobile */
     }
     
     .task-header {
@@ -158,6 +171,7 @@
     }
     
     .task-actions {
-        padding: 8px 12px !important;
+        padding: 12px !important;
+        min-height: 60px; /* Slightly smaller for mobile but still adequate */
     }
 }

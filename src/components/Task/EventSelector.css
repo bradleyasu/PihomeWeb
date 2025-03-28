@@ -1,0 +1,83 @@
+.event-selector {
+  margin-top: 8px;
+  border: 1px solid var(--divider-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.event-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  background-color: var(--header-bg-color);
+  transition: background-color 0.2s ease;
+}
+
+.event-selector-header:hover {
+  background-color: var(--header-hover-bg-color);
+}
+
+.event-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.event-type-chip {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background-color: var(--chip-bg-color);
+  color: var(--chip-color);
+}
+
+.event-config {
+  padding: 16px;
+  background-color: var(--config-bg-color);
+}
+
+.event-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.event-actions-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+/* Light theme colors */
+:root {
+  --header-bg-color: rgba(0, 0, 0, 0.03);
+  --header-hover-bg-color: rgba(0, 0, 0, 0.05);
+  --config-bg-color: rgba(0, 0, 0, 0.01);
+  --divider-color: rgba(0, 0, 0, 0.12);
+  --chip-bg-color: rgba(0, 0, 0, 0.08);
+  --chip-color: rgba(0, 0, 0, 0.87);
+}
+
+/* Dark theme colors */
+.dark-mode {
+  --header-bg-color: rgba(255, 255, 255, 0.05);
+  --header-hover-bg-color: rgba(255, 255, 255, 0.08);
+  --config-bg-color: rgba(255, 255, 255, 0.02);
+  --divider-color: rgba(255, 255, 255, 0.12);
+  --chip-bg-color: rgba(255, 255, 255, 0.1);
+  --chip-color: rgba(255, 255, 255, 0.87);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .event-selector-header {
+    padding: 10px 12px;
+  }
+  
+  .event-config {
+    padding: 12px;
+  }
+}

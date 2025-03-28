@@ -59,7 +59,7 @@
     gap: 16px;
     padding: 20px;
     height: calc(100vh - 80px);
-    overflow-y: auto;
+    overflow: hidden; /* Changed from auto to hidden to prevent double scrolling */
     background-color: rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
@@ -107,17 +107,30 @@
     flex-direction: column;
     border-radius: 12px !important;
     flex-grow: 1;
-    overflow: hidden;
     background-color: var(--card-bg-color) !important;
     color: var(--text-primary-color);
     /* Set a minimum height to ensure it doesn't collapse */
     min-height: 400px;
+    /* Remove overflow: hidden to allow child to scroll */
+    position: relative; 
+}
+
+.task-scroll-container {
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
 }
 
 .task-tabs {
     background-color: var(--tabs-bg-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .tab-content {
@@ -143,11 +156,10 @@
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
     padding: 24px;
-    overflow-y: auto;
-    /* Set a specific height that allows scrolling while maintaining consistent space */
+    overflow-y: auto; /* This is the only element that should scroll */
+    overflow-x: hidden;
     flex: 1;
-    max-height: calc(100% - 50px); /* Account for tabs height */
-    min-height: 300px;
+    height: 100%; /* Use height instead of max-height to fill available space */
     align-content: start; /* Ensures cards start from the top */
 }
 
@@ -195,6 +207,13 @@
     --chip-color: rgba(255, 255, 255, 0.87);
 }
 
+.add-task-fab {
+    position: fixed !important;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .task-dashboard {
@@ -210,14 +229,17 @@
     
     .task-grid {
         grid-template-columns: 1fr;
-        padding: 16px;
+        padding: 16px 16px 80px 16px; /* Add bottom padding to prevent FAB overlap */
         gap: 12px;
-        max-height: calc(100% - 48px); /* Adjust for mobile tab size */
-        min-height: 250px;
     }
     
     .task-content-container {
         min-height: 300px;
-        max-height: calc(100vh - 210px); /* Account for header and stats */
+        flex: 1; /* Let it take available space */
+    }
+
+    .add-task-fab {
+        bottom: 16px;
+        right: 16px;
     }
 }

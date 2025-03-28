@@ -96,7 +96,7 @@ const TaskCard = ({ task }: TaskProps) => {
             
             <CardContent className="task-content">
                 <Typography variant="h6" className="task-title">
-                    {task.name}
+                    {task.name || "Unnamed Task"}
                 </Typography>
                 
                 <Typography variant="body2" className="task-description">
@@ -125,6 +125,7 @@ const TaskCard = ({ task }: TaskProps) => {
                             onClick={() => handleTaskAction('confirm')}
                             fullWidth
                             size={isMobile ? "small" : "medium"}
+                            className="action-button"
                         >
                             Complete
                         </Button>
@@ -135,6 +136,7 @@ const TaskCard = ({ task }: TaskProps) => {
                             onClick={() => handleTaskAction('reject')}
                             fullWidth
                             size={isMobile ? "small" : "medium"}
+                            className="action-button"
                         >
                             Reject
                         </Button>

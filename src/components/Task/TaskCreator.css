@@ -1,0 +1,92 @@
+.dialog-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 8px !important;
+}
+
+.task-form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 8px !important;
+}
+
+.time-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: var(--form-section-bg);
+}
+
+.schedule-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-left: 16px;
+    margin-top: 8px;
+}
+
+.task-form-actions {
+    padding: 16px 24px !important;
+}
+
+.close-button {
+    margin-right: -8px;
+}
+
+.create-button {
+    min-width: 140px;
+}
+
+.create-icon {
+    margin-right: 8px;
+}
+
+.loading-button-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.events-accordion {
+    margin-top: 16px !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: 1px solid var(--divider-color) !important;
+    border-radius: 8px !important;
+}
+
+.events-caption {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--text-secondary-color);
+}
+
+/* Light theme variables */
+:root {
+    --form-section-bg: rgba(0, 0, 0, 0.03);
+}
+
+/* Dark theme variables */
+.dark-mode {
+    --form-section-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .task-form-content {
+        padding-top: 16px !important;
+    }
+    
+    .time-selector {
+        padding: 12px;
+    }
+    
+    .schedule-options {
+        padding-left: 8px;
+    }
+}
