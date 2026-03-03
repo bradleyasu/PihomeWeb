@@ -1,4 +1,4 @@
-import { Button, FormControl, InputLabel, Menu, MenuItem, Select, Slider, Stack, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select, Slider, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BsFillVolumeDownFill, BsFillVolumeUpFill } from "react-icons/bs";
 import "./MediaPlayer.css"
@@ -31,6 +31,7 @@ const MediaPlayer = () => {
             "action": "volume",
             "value": volume
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [volume]);
 
     useEffect(() => {
@@ -41,6 +42,7 @@ const MediaPlayer = () => {
         // only set the volume if the last update was more than 3 seconds ago
         if (Date.now() - lastUpdate < 3000) return;
         setVolume(pihome.phstate?.audio?.volume);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pihome.phstate]);
 
 

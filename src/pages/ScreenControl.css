@@ -241,7 +241,9 @@
 .apps-grid {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
+  padding: 4px 2px;
 }
 
 /* ── Timers strip ── */
@@ -264,6 +266,7 @@
 /* ── Skeleton ── */
 .apps-grid-skeleton {
   display: flex;
+  justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
 }

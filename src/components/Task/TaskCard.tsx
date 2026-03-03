@@ -1,163 +1,137 @@
-import { 
-    AccessTime, 
-    Delete, 
-    DoneAll, 
-    Error, 
-    PendingActions, 
-    PriorityHigh 
-} from "@mui/icons-material";
-import { 
-    Box, 
-    Button, 
-    Card, 
-    CardActions, 
-    CardContent, 
-    Chip, 
-    Divider, 
-    IconButton, 
-    Tooltip, 
-    Typography,
-    useTheme,
-    useMediaQuery
-} from "@mui/material";
+import { AccessTime, Check, Close, Delete } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 import { usePiHome } from "../../providers/PihomeStateProvider";
 import "./TaskCard.css";
 
 type TaskType = {
-    id: string,
-    name: string,
-    description: string
-    start_time: string,
-    status: string,
-    priority: string
-}
+  id: string;
+  name: string;
+  description: string;
+  start_time: string;
+  status: string;
+  priority: string;
+};
 
 interface TaskProps {
-    task: TaskType
+  task: TaskType;
 }
 
+const priorityColor = (p: string) => {
+  switch (p?.toLowerCase()) {
+    case "high":   return "#ff5252";
+    case "medium": return "#ffab40";
+    case "low":    return "#69f0ae";
+    default:       return "#64748b";
+  }
+};
+
+const statusLabel = (s: string) =>
+  s.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+const formatTime = (t: string) => {
+  if (!t) return null;
+  try {
+    const d = new Date(t);
+    if (isNaN(d.getTime())) return t;
+    return d.toLocaleString(undefined, {
+      month: "short", day: "numeric",
+      hour: "numeric", minute: "2-digit", hour12: true,
+    });
+  } catch { return t; }
+};
+
 const TaskCard = ({ task }: TaskProps) => {
-    const pihome = usePiHome();
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isDarkMode = theme.palette.mode === 'dark';
-    
-    const isInProgress = task.status.toLowerCase() === "in_progress";
+  const pihome = usePiHome();
+  const isInProgress = task.status.toLowerCase() === "in_progress";
+  const pColor = priorityColor(task.priority);
 
-    const getStatusIcon = () => {
-        switch(task.status.toLowerCase()) {
-            case 'in_progress': return <PendingActions fontSize={isMobile ? "small" : "medium"} />;
-            case 'pending': return <AccessTime fontSize={isMobile ? "small" : "medium"} />;
-            default: return <AccessTime fontSize={isMobile ? "small" : "medium"} />;
-        }
-    };
+  const handleDelete = () => {
+    pihome.send_payload({ type: "delete", entity: "task", id: task.id });
+  };
 
-    const getPriorityColor = () => {
-        switch(task.priority.toLowerCase()) {
-            case 'high': return isDarkMode ? '#ff5252' : '#f44336';
-            case 'medium': return isDarkMode ? '#ffab40' : '#ff9800';
-            case 'low': return isDarkMode ? '#69f0ae' : '#4caf50';
-            default: return isDarkMode ? '#bdbdbd' : '#9e9e9e';
-        }
-    };
+  const handleConfirm = () => {
+    pihome.send_payload({ type: "acktask", confirm: true });
+  };
 
-    const handleTaskAction = (action: 'confirm' | 'reject' | 'delete') => {
-        if (action === 'delete') {
-            pihome.send_payload({
-                type: "delete",
-                entity: "task",
-                id: task.id
-            });
-        } else {
-            pihome.send_payload({
-                type: "acktask",
-                confirm: action === 'confirm'
-            });
-        }
-    };
+  const handleReject = () => {
+    pihome.send_payload({ type: "acktask", confirm: false });
+  };
 
-    return (
-        <Card className={`task-card ${isInProgress ? 'in-progress' : ''} ${isDarkMode ? 'dark-mode' : ''}`}>
-            <Box className="task-header">
-                <Chip 
-                    icon={getStatusIcon()} 
-                    label={task.status.replace('_', ' ')}
-                    color={isInProgress ? "primary" : "default"}
-                    size="small"
-                    className="status-chip"
-                />
-                
-                <Box className="priority-indicator" style={{ backgroundColor: getPriorityColor() }}>
-                    <Tooltip title={`${task.priority} Priority`}>
-                        <PriorityHigh fontSize="small" />
-                    </Tooltip>
-                </Box>
-            </Box>
-            
-            <CardContent className="task-content">
-                <Typography variant="h6" className="task-title">
-                    {task.name || "Unnamed Task"}
-                </Typography>
-                
-                <Typography variant="body2" className="task-description">
-                    {task.description}
-                </Typography>
-                
-                <Box className="task-metadata">
-                    <Tooltip title="Start time">
-                        <Box className="metadata-item">
-                            <AccessTime fontSize="small" />
-                            <Typography variant="caption">{task.start_time}</Typography>
-                        </Box>
-                    </Tooltip>
-                </Box>
-            </CardContent>
-            
-            <Divider className="task-divider" />
-            
-            <CardActions className="task-actions">
-                {isInProgress ? (
-                    <>
-                        <Button 
-                            variant={isDarkMode ? "outlined" : "contained"} 
-                            color="success" 
-                            startIcon={<DoneAll />}
-                            onClick={() => handleTaskAction('confirm')}
-                            fullWidth
-                            size={isMobile ? "small" : "medium"}
-                            className="action-button"
-                        >
-                            Complete
-                        </Button>
-                        <Button 
-                            variant={isDarkMode ? "outlined" : "outlined"} 
-                            color="error"
-                            startIcon={<Error />}
-                            onClick={() => handleTaskAction('reject')}
-                            fullWidth
-                            size={isMobile ? "small" : "medium"}
-                            className="action-button"
-                        >
-                            Reject
-                        </Button>
-                    </>
-                ) : (
-                    <>
-                        <Box sx={{ flexGrow: 1 }} />
-                        <Tooltip title="Delete Task">
-                            <IconButton 
-                                onClick={() => handleTaskAction('delete')}
-                                className="delete-button"
-                                size={isMobile ? "small" : "medium"}
-                            >
-                                <Delete fontSize={isMobile ? "small" : "medium"} />
-                            </IconButton>
-                        </Tooltip>
-                    </>
-                )}
-            </CardActions>
-        </Card>
-    );
+  const formattedTime = formatTime(task.start_time);
+
+  return (
+    <div
+      className={"task-card" + (isInProgress ? " task-card--active" : "")}
+      style={{ "--priority-color": pColor } as React.CSSProperties}
+    >
+      {/* Left priority bar */}
+      <div className="task-card-bar" />
+
+      {/* Card body */}
+      <div className="task-card-body">
+
+        {/* Top row: name + status chip */}
+        <div className="task-card-top">
+          <span className="task-card-name">{task.name || "Unnamed Task"}</span>
+          <span
+            className={
+              "task-card-status" +
+              (isInProgress ? " task-card-status--active" : "")
+            }
+          >
+            {statusLabel(task.status)}
+          </span>
+        </div>
+
+        {/* Description */}
+        {task.description && (
+          <p className="task-card-desc">{task.description}</p>
+        )}
+
+        {/* Bottom row: time + actions */}
+        <div className="task-card-footer">
+          {formattedTime && (
+            <span className="task-card-time">
+              <AccessTime sx={{ fontSize: 12, verticalAlign: "middle", mr: "3px" }} />
+              {formattedTime}
+            </span>
+          )}
+
+          <div className="task-card-actions">
+            {isInProgress ? (
+              <>
+                <Tooltip title="Complete">
+                  <button
+                    className="task-action-btn task-action-btn--confirm"
+                    onClick={handleConfirm}
+                  >
+                    <Check sx={{ fontSize: 14 }} />
+                  </button>
+                </Tooltip>
+                <Tooltip title="Reject">
+                  <button
+                    className="task-action-btn task-action-btn--reject"
+                    onClick={handleReject}
+                  >
+                    <Close sx={{ fontSize: 14 }} />
+                  </button>
+                </Tooltip>
+              </>
+            ) : (
+              <Tooltip title="Delete">
+                <button
+                  className="task-action-btn task-action-btn--delete"
+                  onClick={handleDelete}
+                >
+                  <Delete sx={{ fontSize: 14 }} />
+                </button>
+              </Tooltip>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default TaskCard;

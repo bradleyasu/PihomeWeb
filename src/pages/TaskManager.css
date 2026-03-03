@@ -1,89 +1,171 @@
-.task-manager-page {
+.task-page {
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 24px;
-  gap: 20px;
   overflow: hidden;
   position: relative;
+  background: transparent;
 }
 
-.task-summary-strip {
-  display: flex;
-  gap: 12px;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-}
-
-.summary-stat {
+/* Stats strip */
+.task-stats {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  transition: background 0.2s;
-}
-
-.summary-stat:hover {
-  background: rgba(255, 255, 255, 0.07);
-}
-
-.summary-stat-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  gap: 0;
+  padding: 20px 24px 0;
   flex-shrink: 0;
 }
 
-.summary-stat-count {
-  font-size: 1.1rem;
+.task-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0 20px;
+}
+
+.task-stat:first-child { padding-left: 0; }
+
+.task-stat-num {
+  font-size: 1.6rem;
   font-weight: 700;
   color: #f1f5f9;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
-.summary-stat-label {
-  font-size: 0.72rem;
+.task-stat-num.indigo { color: #818cf8; }
+.task-stat-num.cyan   { color: #22d3ee; }
+
+.task-stat-label {
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.task-stat-sep {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Filter pills */
+.task-filters {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(255, 255, 255, 0.2);
-}
-
-.task-tabs-bar {
+  gap: 8px;
+  padding: 16px 24px 0;
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  overflow-x: auto;
 }
 
-.task-grid-container {
+.task-filters::-webkit-scrollbar { display: none; }
+
+.task-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.task-filter-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.task-filter-pill.active {
+  background: rgba(129, 140, 248, 0.15);
+  border-color: rgba(129, 140, 248, 0.4);
+  color: #a5b4fc;
+}
+
+.task-filter-count {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1px 7px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.task-filter-pill.active .task-filter-count {
+  background: rgba(129, 140, 248, 0.25);
+}
+
+/* Task list */
+.task-list {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  padding-bottom: 80px;
+  overflow-x: hidden;
+  padding: 16px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.task-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-  padding: 4px 2px;
+.task-list::-webkit-scrollbar { width: 2px; }
+.task-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
 }
 
+/* Empty state */
+.task-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 32px;
+  gap: 8px;
+  text-align: center;
+}
+
+.task-empty-icon {
+  font-size: 2.5rem;
+  color: rgba(129, 140, 248, 0.4);
+  margin-bottom: 8px;
+}
+
+.task-empty-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.task-empty-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.25);
+  line-height: 1.5;
+}
+
+/* FAB */
 .task-fab {
   position: absolute !important;
-  bottom: 28px;
-  right: 28px;
+  bottom: 24px;
+  right: 24px;
   background: linear-gradient(135deg, #818cf8, #22d3ee) !important;
-  color: white !important;
-  box-shadow: 0 4px 20px rgba(129, 140, 248, 0.4) !important;
-  transition: transform 0.2s, box-shadow 0.2s !important;
+  color: #fff !important;
+  box-shadow: 0 4px 20px rgba(129, 140, 248, 0.45) !important;
+  transition: transform 0.15s, box-shadow 0.15s !important;
 }
 
 .task-fab:hover {
-  transform: scale(1.08) !important;
-  box-shadow: 0 6px 28px rgba(129, 140, 248, 0.6) !important;
+  transform: scale(1.07) !important;
+  box-shadow: 0 6px 28px rgba(129, 140, 248, 0.65) !important;
 }
+

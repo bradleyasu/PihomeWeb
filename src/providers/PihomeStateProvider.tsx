@@ -23,6 +23,7 @@ const PihomeStateProvider = ({children}: Props) => {
         if (!socket || !online) return;
         console.log("Setting up socket...");
         runThread();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [socket, online]);
 
     const runThread = () => {

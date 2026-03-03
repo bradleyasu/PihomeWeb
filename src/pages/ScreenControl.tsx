@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tooltip } from "@mui/material";
 import {
-  SkipPrevious,
-  SkipNext,
   Shuffle,
   Block,
   OpenInNew,
@@ -109,8 +107,6 @@ const ScreenControl = () => {
   };
 
   const handleShuffle = () => send({ type: "wallpaper", action: "shuffle" });
-  const handlePrev   = () => send({ type: "wallpaper", action: "prev" });
-  const handleNext   = () => send({ type: "wallpaper", action: "next" });
   const handleBan    = () => {
     if (!wallpaperSource) return;
     send({ type: "wallpaper", action: "ban", value: wallpaperSource });
@@ -180,19 +176,9 @@ const ScreenControl = () => {
               )}
             </div>
             <div className="hero-wallpaper-controls">
-              <Tooltip title="Previous wallpaper" placement="top">
-                <button className="wp-btn" onClick={handlePrev}>
-                  <SkipPrevious sx={{ fontSize: 16 }} />
-                </button>
-              </Tooltip>
               <Tooltip title="Shuffle wallpaper" placement="top">
                 <button className="wp-btn" onClick={handleShuffle}>
                   <Shuffle sx={{ fontSize: 14 }} />
-                </button>
-              </Tooltip>
-              <Tooltip title="Next wallpaper" placement="top">
-                <button className="wp-btn" onClick={handleNext}>
-                  <SkipNext sx={{ fontSize: 16 }} />
                 </button>
               </Tooltip>
               <Tooltip title="Ban this wallpaper" placement="top">

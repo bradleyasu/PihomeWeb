@@ -28,8 +28,6 @@ const PiHome = ({ view }: Props) => {
   const pihome = usePiHome();
   const theme = useTheme();
 
-  const wallpaper = pihome.phstate?.wallpaper?.current_wallpaper;
-
   if (!pihome.online) {
     return (
       <Box
@@ -105,17 +103,9 @@ const PiHome = ({ view }: Props) => {
   }
 
   return (
-    <Box sx={{ flex: 1, position: "relative", overflow: "hidden" }}>
-      {/* Wallpaper background */}
-      {wallpaper && (
-        <Box
-          className="app-wallpaper"
-          sx={{ backgroundImage: `url(${wallpaper})` }}
-        />
-      )}
-
+    <Box sx={{ flex: 1, height: "100%", minHeight: 0, position: "relative", overflow: "hidden" }}>
       {/* Page content */}
-      <Box className="app-content view-transition" key={view}>
+      <Box className="app-content view-transition" key={view} sx={{ height: "100%", overflow: "hidden" }}>
         {views[view] ?? views["default"]}
       </Box>
     </Box>

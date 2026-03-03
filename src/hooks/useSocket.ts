@@ -21,6 +21,7 @@ export const useSocket = () => {
         return () => {
             socket.close();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [socket]);
 
     useEffect(() => {
@@ -29,6 +30,7 @@ export const useSocket = () => {
             clearInterval(reconnectThread);
             setReconnectThread(null);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [online]);
 
     useEffect(() => {

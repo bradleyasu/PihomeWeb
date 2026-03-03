@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useEventIntrospection } from "../hooks/useEventIntrospection";
 import "./EventManager.css";
 import { MenuItem, Select } from "@mui/material";
-import { render } from "@testing-library/react";
 
 const EventManager = () => {
     const introspection = useEventIntrospection();
@@ -10,6 +9,7 @@ const EventManager = () => {
 
     useEffect(() => {
         introspection.mutate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const renderEventSelection = () => {
