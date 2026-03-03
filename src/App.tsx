@@ -1,107 +1,86 @@
-import { ThemeProvider } from '@emotion/react';
-import './App.css';
-import TopBar from './components/TopBar/TopBar';
-import { useEffect, useState } from 'react';
-import { dark_theme, light_theme } from './theme';
-import { Button, Drawer, TextField } from '@mui/material';
-import { QueryClient } from '@tanstack/react-query';
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import PiHome from './PiHome';
-import { PihomeStateProvider } from './providers/PihomeStateProvider';
-import PihomeDrawer from './components/Drawer/PihomeDrawer';
+import { ThemeProvider } from "@emotion/react";
+import { CssBaseline } from "@mui/material";
+import { Tv, MusicNote, Timer, CheckBox, Event } from "@mui/icons-material";
+import "./App.css";
+import TopBar from "./components/TopBar/TopBar";
+import { useEffect, useState } from "react";
+import { dark_theme, light_theme } from "./theme";
+import { QueryClient } from "@tanstack/react-query";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import PiHome from "./PiHome";
+import { PihomeStateProvider } from "./providers/PihomeStateProvider";
+import PihomeDrawer from "./components/Drawer/PihomeDrawer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: 1000 * 60 * 30,// 30 minutes
+      cacheTime: 1000 * 60 * 30,
       refetchOnMount: false,
       refetchOnWindowFocus: false,
-    }
-  }
+    },
+  },
 });
-
 
 const persister = createSyncStoragePersister({
   storage: window.localStorage,
 });
 
+const navItems = [
+  { id: "screens", label: "Screens", icon: <Tv fontSize="small" /> },
+  { id: "media", label: "Media", icon: <MusicNote fontSize="small" /> },
+  { id: "timers", label: "Timers", icon: <Timer fontSize="small" /> },
+  { id: "tasks_manager", label: "Tasks", icon: <CheckBox fontSize="small" /> },
+  { id: "events", label: "Events", icon: <Event fontSize="small" /> },
+];
+
+const drawerCommands = [
+  { name: "Shuffle Wallpaper", payload: { type: "wallpaper", action: "shuffle" } },
+  { name: "Prev Wallpaper",    payload: { type: "wallpaper", action: "prev" } },
+  { name: "Next Wallpaper",    payload: { type: "wallpaper", action: "next" } },
+  { name: "Restart PiHome",    payload: { type: "restart" } },
+  { name: "Shutdown PiHome",   payload: { type: "shutdown" } },
+  { name: "Reload App",        onClick: () => window.location.reload() },
+];
 
 function App() {
-  const [dark, setDark] = useState(localStorage.getItem("dark") === "true");
-  const [open, setOpen] = useState(false);
-  const [currentView, setCurrentView] = useState(localStorage.getItem("view") || "screens");
+  const [dark, setDark] = useState(localStorage.getItem("dark") !== "false");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [currentView, setCurrentView] = useState(
+    localStorage.getItem("view") || "screens"
+  );
 
-  useEffect(() => {
-    localStorage.setItem("dark", dark ? "true" : "false");
-  }, [dark]);
-
-  useEffect(() => {
-    localStorage.setItem("view", currentView);
-  }, [currentView]);
+  useEffect(() => { localStorage.setItem("dark", dark ? "true" : "false"); }, [dark]);
+  useEffect(() => { localStorage.setItem("view", currentView); }, [currentView]);
 
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister }}
-    >
+    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       <ThemeProvider theme={dark ? dark_theme : light_theme}>
-        <div className="root-container">
-          <TopBar
-            onMenuClick={() => setOpen(!open)}
-          />
-          <div>
-            <PihomeStateProvider>
-              <Drawer
-                open={open}
-              >
-                <PihomeDrawer 
-                  commands={[
-                    {
-                      name: "Toggle Dark Mode",
-                      onClick: () => setDark(!dark)
-                    },
-                    {
-                      name: "Media Player",
-                      onClick: () => setCurrentView("media")
-                    },
-                    {
-                      name: "Screens",
-                      onClick: () => setCurrentView("screens")
-                    },
-                    {
-                      name: "Timers",
-                      onClick: () => setCurrentView("timers")
-                    },
-                    {
-                      name: "Task Manager",
-                      onClick: () => setCurrentView("tasks_manager")
-                    },
-                    {
-                      name: "Event Manager",
-                      onClick: () => setCurrentView("events")
-                    },
-                    {
-                      name: "Shuffle Wallpaper",
-                      payload: {
-                        "type": "wallpaper",
-                        "action": "shuffle"
-                      }
-                    },
-                    {
-                      name: "Reload PWA",
-                      onClick: () => {
-                        window.location.reload();
-                      }
-                    }
-                  ]}
-                  onClose={() => setOpen(false)}
-                />
-              </Drawer>
+        <CssBaseline />
+        <PihomeStateProvider>
+          <div className="app-root">
+            <TopBar
+              onMenuClick={() => setDrawerOpen(true)}
+              currentView={currentView}
+              navItems={navItems}
+            />
+
+            <div className="app-content-area">
               <PiHome view={currentView} />
-            </PihomeStateProvider>
+            </div>
+
+            <PihomeDrawer
+              open={drawerOpen}
+              currentView={currentView}
+              navItems={navItems}
+              commands={drawerCommands}
+              dark={dark}
+              onNavigate={setCurrentView}
+              onThemeToggle={() => setDark(!dark)}
+              onClose={() => setDrawerOpen(false)}
+            />
           </div>
-        </div>
+        </PihomeStateProvider>
       </ThemeProvider>
     </PersistQueryClientProvider>
   );

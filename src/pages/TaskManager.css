@@ -1,245 +1,89 @@
-.task_manager_container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    height: calc(100vh - 100px);
-    max-width: 800px !important;
-    margin: 0 auto;
+.task-manager-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 20px;
+  overflow: hidden;
+  position: relative;
 }
 
-.task_manager_error {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: space-around;
-    align-content: center;
-    padding: 20px;
-    gap: 10px;
-    overflow-y: auto;
-    color: black;
-    background: white;
-    width: 300px;
-    margin: auto auto;
-    border-radius: 20px;
-    margin-top: 10px;
+.task-summary-strip {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
-.task_manager_title {
-    color: white;
-    margin-bottom: 20px !important;
-    text-align: center;
-    font-weight: 600 !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    backdrop-filter: blur(5px);
-    background-color: rgba(0,0,0,0.3);
-    padding: 10px !important;
-    border-radius: 8px;
+.summary-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: background 0.2s;
 }
 
-.task_list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    overflow-y: auto;
-    padding: 10px;
-    align-items: start;
+.summary-stat:hover {
+  background: rgba(255, 255, 255, 0.07);
 }
 
-.task_manager_empty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 100px);
-    padding: 20px;
+.summary-stat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.task-dashboard {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
-    height: calc(100vh - 80px);
-    overflow: hidden; /* Changed from auto to hidden to prevent double scrolling */
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+.summary-stat-count {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f1f5f9;
 }
 
-.task-dashboard.dark-mode {
-    background-color: rgba(0, 0, 0, 0.6);
+.summary-stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.2);
 }
 
-.task-dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px;
-    border-radius: 12px !important;
-    background-color: var(--card-bg-color) !important;
-    color: var(--text-primary-color);
+.task-tabs-bar {
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.dashboard-title {
-    font-size: clamp(1.5rem, 4vw, 2.125rem);
-    font-weight: 600;
-}
-
-.refresh-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background-color: var(--action-bg-color);
-    color: var(--action-color);
-}
-
-.refresh-button:hover {
-    background-color: var(--action-hover-bg-color);
-    transform: rotate(180deg);
-}
-
-.task-content-container {
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px !important;
-    flex-grow: 1;
-    background-color: var(--card-bg-color) !important;
-    color: var(--text-primary-color);
-    /* Set a minimum height to ensure it doesn't collapse */
-    min-height: 400px;
-    /* Remove overflow: hidden to allow child to scroll */
-    position: relative; 
-}
-
-.task-scroll-container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-}
-
-.task-tabs {
-    background-color: var(--tabs-bg-color);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.tab-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.tab-count {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--chip-bg-color);
-    color: var(--chip-color);
-    border-radius: 50%;
-    min-width: 24px;
-    height: 24px;
-    font-size: 12px;
+.task-grid-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px;
 }
 
 .task-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    padding: 24px;
-    overflow-y: auto; /* This is the only element that should scroll */
-    overflow-x: hidden;
-    flex: 1;
-    height: 100%; /* Use height instead of max-height to fill available space */
-    align-content: start; /* Ensures cards start from the top */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  padding: 4px 2px;
 }
 
-.no-tasks-message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 48px;
-    text-align: center;
-    color: var(--text-secondary-color);
-    flex: 1;
+.task-fab {
+  position: absolute !important;
+  bottom: 28px;
+  right: 28px;
+  background: linear-gradient(135deg, #818cf8, #22d3ee) !important;
+  color: white !important;
+  box-shadow: 0 4px 20px rgba(129, 140, 248, 0.4) !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
 }
 
-/* Theme variables - Light mode (default) */
-:root {
-    --card-bg-color: rgba(255, 255, 255, 0.95);
-    --card-bg-transparent: rgba(255, 255, 255, 0.8);
-    --text-primary-color: rgba(0, 0, 0, 0.87);
-    --text-secondary-color: rgba(0, 0, 0, 0.6);
-    --text-light-color: rgba(0, 0, 0, 0.38);
-    --divider-color: rgba(0, 0, 0, 0.12);
-    --action-bg-color: #f5f5f5;
-    --action-hover-bg-color: #e0e0e0;
-    --action-color: #757575;
-    --tabs-bg-color: #f5f5f5;
-    --chip-bg-color: rgba(0, 0, 0, 0.1);
-    --chip-color: rgba(0, 0, 0, 0.87);
-}
-
-/* Dark theme variables */
-.dark-mode {
-    --card-bg-color: rgba(41, 41, 41, 0.95);
-    --card-bg-transparent: rgba(41, 41, 41, 0.8);
-    --text-primary-color: rgba(255, 255, 255, 0.87);
-    --text-secondary-color: rgba(255, 255, 255, 0.6);
-    --text-light-color: rgba(255, 255, 255, 0.38);
-    --divider-color: rgba(255, 255, 255, 0.12);
-    --action-bg-color: rgba(255, 255, 255, 0.05);
-    --action-hover-bg-color: rgba(255, 255, 255, 0.1);
-    --action-color: rgba(255, 255, 255, 0.7);
-    --tabs-bg-color: rgba(30, 30, 30, 0.95);
-    --chip-bg-color: rgba(255, 255, 255, 0.1);
-    --chip-color: rgba(255, 255, 255, 0.87);
-}
-
-.add-task-fab {
-    position: fixed !important;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    .task-dashboard {
-        padding: 10px;
-        gap: 8px; /* Reduced from 10px to save space */
-        height: calc(100vh - 60px);
-    }
-    
-    .task-dashboard-header {
-        padding: 12px 16px;
-        margin-bottom: 0;
-    }
-    
-    .task-grid {
-        grid-template-columns: 1fr;
-        padding: 16px 16px 80px 16px; /* Add bottom padding to prevent FAB overlap */
-        gap: 12px;
-    }
-    
-    .task-content-container {
-        min-height: 300px;
-        flex: 1; /* Let it take available space */
-    }
-
-    .add-task-fab {
-        bottom: 16px;
-        right: 16px;
-    }
+.task-fab:hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 6px 28px rgba(129, 140, 248, 0.6) !important;
 }

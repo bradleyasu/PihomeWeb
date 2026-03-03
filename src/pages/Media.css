@@ -1,12 +1,19 @@
+.media-page {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
-
-.media_container {
-    display: flex;
-    height: calc(100vh - 64px);
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    justify-items: center;
-    align-content: center;
-    align-items: center;
+.media-player-panel {
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  overflow-y: auto;
+  backdrop-filter: blur(30px);
+  background: rgba(0,0,0,0.4);
+  border-left: 1px solid rgba(255,255,255,0.07);
+  border-right: 1px solid rgba(255,255,255,0.07);
 }
