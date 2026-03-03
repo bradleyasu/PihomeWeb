@@ -21,9 +21,10 @@ import {
     CircularProgress,
     Accordion,
     AccordionSummary,
-    AccordionDetails
+    AccordionDetails,
+    Tooltip
 } from "@mui/material";
-import { Close, Add, ExpandMore } from "@mui/icons-material";
+import { Close, Add, ExpandMore, InfoOutlined } from "@mui/icons-material";
 import { useCreateTask, mapPriorityToNumber, TaskPriority } from "../../hooks/useCreateTask";
 import "./TaskCreator.css";
 import { usePiHome } from "../../providers/PihomeStateProvider";
@@ -49,6 +50,7 @@ const TaskCreator = ({ open, onClose }: TaskCreatorProps) => {
     const [dateTime, setDateTime] = useState("");
     const [repeatDays, setRepeatDays] = useState(0);
     const [isQuickTask, setIsQuickTask] = useState(false);
+    const [isPassive, setIsPassive] = useState(false); // New state for passive tasks
     
     // Event handlers
     const [onRun, setOnRun] = useState<any>(null);
@@ -68,6 +70,7 @@ const TaskCreator = ({ open, onClose }: TaskCreatorProps) => {
         setDateTime("");
         setRepeatDays(0);
         setIsQuickTask(false);
+        setIsPassive(false); // Reset passive state
         setOnRun(null);
         setOnConfirm(null);
         setOnCancel(null);
@@ -119,8 +122,9 @@ const TaskCreator = ({ open, onClose }: TaskCreatorProps) => {
             start_time: formattedStartTime,
             repeat_days: repeatDays > 0 ? repeatDays : undefined,
             on_run: onRun,
-            on_confirm: onConfirm,
-            on_cancel: onCancel
+            on_confirm: !isPassive ? onConfirm : undefined, // Only include if not passive
+            on_cancel: !isPassive ? onCancel : undefined, // Only include if not passive
+            is_passive: isPassive // Add is_passive flag
         };
         
         createTaskMutation.mutate(taskData, {
@@ -283,13 +287,40 @@ const TaskCreator = ({ open, onClose }: TaskCreatorProps) => {
                     )}
                 </Box>
                 
+                <Box className="task-type-selector">
+                    <FormControlLabel
+                        control={
+                            <Switch 
+                                checked={isPassive} 
+                                onChange={(e) => {
+                                    setIsPassive(e.target.checked);
+                                    // Clear confirmation/cancellation events if switching to passive
+                                    if (e.target.checked) {
+                                        setOnConfirm(null);
+                                        setOnCancel(null);
+                                    }
+                                }}
+                            />
+                        }
+                        label={
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                <span>Passive Task</span>
+                                <Tooltip title="Passive tasks run automatically without requiring confirmation. Only on_run events can be set.">
+                                    <InfoOutlined fontSize="small" color="action" />
+                                </Tooltip>
+                            </Box>
+                        }
+                    />
+                </Box>
+                
                 <Accordion className="events-accordion">
                     <AccordionSummary expandIcon={<ExpandMore />}>
                         <Typography>Event Handlers</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography variant="caption" className="events-caption">
-                            Configure events to trigger when the task runs, is confirmed, or is cancelled.
+                            Configure events to trigger when the task runs
+                            {!isPassive && ", is confirmed, or is cancelled"}.
                         </Typography>
                         
                         <EventSelector 
@@ -299,19 +330,23 @@ const TaskCreator = ({ open, onClose }: TaskCreatorProps) => {
                             onClear={() => setOnRun(null)}
                         />
                         
-                        <EventSelector 
-                            label="On Confirm Event" 
-                            value={onConfirm} 
-                            onChange={setOnConfirm}
-                            onClear={() => setOnConfirm(null)} 
-                        />
-                        
-                        <EventSelector 
-                            label="On Cancel Event" 
-                            value={onCancel} 
-                            onChange={setOnCancel}
-                            onClear={() => setOnCancel(null)} 
-                        />
+                        {!isPassive && (
+                            <>
+                                <EventSelector 
+                                    label="On Confirm Event" 
+                                    value={onConfirm} 
+                                    onChange={setOnConfirm}
+                                    onClear={() => setOnConfirm(null)} 
+                                />
+                                
+                                <EventSelector 
+                                    label="On Cancel Event" 
+                                    value={onCancel} 
+                                    onChange={setOnCancel}
+                                    onClear={() => setOnCancel(null)} 
+                                />
+                            </>
+                        )}
                     </AccordionDetails>
                 </Accordion>
             </DialogContent>

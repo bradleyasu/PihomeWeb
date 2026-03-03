@@ -15,6 +15,7 @@ export type NewTaskData = {
     on_confirm?: any;
     on_cancel?: any;
     background_image?: string;
+    is_passive?: boolean; // New property for passive tasks
 };
 
 const priorityMap = {
