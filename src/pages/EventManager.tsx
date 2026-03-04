@@ -501,8 +501,19 @@ const EventManager = () => {
     });
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(payloadPreview);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(payloadPreview);
+    } catch {
+      // Fallback for non-secure contexts or permission denied
+      const el = document.createElement("textarea");
+      el.value = payloadPreview;
+      el.style.cssText = "position:fixed;top:-9999px;left:-9999px;opacity:0";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
