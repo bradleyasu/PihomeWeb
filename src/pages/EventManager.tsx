@@ -111,6 +111,63 @@ const KVField = ({ field, value, onChange }: KVFieldProps) => {
   );
 };
 
+// ─── Color field component (Kivy RGBA [0–1] list) ─────────────────────
+
+/** Convert a Kivy [r, g, b, a] (0–1 floats) to CSS hex string */
+const kivyToHex = (kivy: number[]): string => {
+  if (!Array.isArray(kivy) || kivy.length < 3) return "#ffffff";
+  const h = (n: number) =>
+    Math.round(Math.min(1, Math.max(0, n)) * 255)
+      .toString(16)
+      .padStart(2, "0");
+  return `#${h(kivy[0])}${h(kivy[1])}${h(kivy[2])}`;
+};
+
+/** Convert a CSS hex string to Kivy [r, g, b, 1.0] */
+const hexToKivy = (hex: string): number[] => {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const round = (n: number) => Math.round(n * 1000) / 1000;
+  return [round(r), round(g), round(b), 1.0];
+};
+
+interface ColorFieldProps {
+  field: FieldDef;
+  value: number[];
+  onChange: (v: number[]) => void;
+}
+
+const ColorField = ({ field, value, onChange }: ColorFieldProps) => {
+  const hex = kivyToHex(Array.isArray(value) ? value : [1, 1, 1, 1]);
+  const kivy = Array.isArray(value) && value.length >= 3 ? value : [1, 1, 1, 1];
+
+  return (
+    <div className="ef-field">
+      <label className="ef-label">
+        {field.name}
+        {field.required && <span className="ef-required">*</span>}
+        <span className="ef-type-badge">color</span>
+      </label>
+      <div className="ef-color-row">
+        <div className="ef-color-swatch-wrap">
+          <input
+            type="color"
+            className="ef-color-input"
+            value={hex}
+            onChange={(e) => onChange(hexToKivy(e.target.value))}
+          />
+          <span className="ef-color-swatch" style={{ background: hex }} />
+        </div>
+        <span className="ef-color-value">
+          [{kivy.map((n) => n.toFixed(3)).join(", ")}]
+        </span>
+      </div>
+      {field.description && <span className="ef-hint">{field.description}</span>}
+    </div>
+  );
+};
+
 // ─── Single field input ──────────────────────────────────────────────
 
 interface FieldInputProps {
@@ -237,6 +294,17 @@ const FieldInput = ({ field, value, onChange, allDefs }: FieldInputProps) => {
         </div>
         {field.description && <span className="ef-hint">{field.description}</span>}
       </div>
+    );
+  }
+
+  // color → Kivy RGBA color picker
+  if (field.type === "color") {
+    return (
+      <ColorField
+        field={field}
+        value={Array.isArray(value) ? value : [1, 1, 1, 1]}
+        onChange={onChange}
+      />
     );
   }
 
@@ -393,6 +461,7 @@ const EventManager = () => {
         else if (f.type === "integer" || f.type === "number") init[f.name] = 0;
         else if (f.type === "list" || f.type === "array") init[f.name] = [];
         else if (f.type === "object" || f.type === "json" || f.type === "dict") init[f.name] = {};
+        else if (f.type === "color") init[f.name] = [1, 1, 1, 1];
         else init[f.name] = "";
       });
       setFieldValues(init);
